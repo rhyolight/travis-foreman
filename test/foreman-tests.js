@@ -6,7 +6,7 @@ var assert = require('chai').assert,
     mockNupicBuilds = require('./mock-data/nupic-build-list'),
     mockNupicCoreBuilds = require('./mock-data/nupic-core-build-list');
 
-describe('build monitor', function() {
+describe('foreman', function() {
 
     describe('when constructed', function() {
         var authenticated = false;
@@ -19,7 +19,7 @@ describe('build monitor', function() {
             }
         };
 
-        var Monitor = proxyquire('../monitor', {
+        var TravisForeman = proxyquire('../foreman', {
             'travis-ci': function () {
                 return mockTravisInstance;
             }
@@ -28,7 +28,7 @@ describe('build monitor', function() {
         describe('without organization', function() {
             it('throws proper error', function() {
                 expect(function() {
-                    new Monitor({
+                    new TravisForeman({
                         username: 'my-username',
                         password: 'my-password'
                     });
@@ -39,7 +39,7 @@ describe('build monitor', function() {
         describe('without username', function() {
             it('throws proper error', function() {
                 expect(function() {
-                    new Monitor({
+                    new TravisForeman({
                         organization: 'my-organization',
                         password: 'my-password'
                     });
@@ -50,7 +50,7 @@ describe('build monitor', function() {
         describe('without password', function() {
             it('throws proper error', function() {
                 expect(function() {
-                    new Monitor({
+                    new TravisForeman({
                         organization: 'my-organization',
                         username: 'my-username'
                     });
@@ -61,23 +61,23 @@ describe('build monitor', function() {
 
         describe('with required configuration', function() {
 
-            var monitor = new Monitor({
+            var foreman = new TravisForeman({
                 organization: 'my-organization',
                 username: 'my-username',
                 password: 'my-password'
             });
 
             it('exposes organization', function() {
-                assert.equal(monitor.organization, 'my-organization', 'Bad org monitor property.');
+                assert.equal(foreman.organization, 'my-organization', 'Bad org foreman property.');
             });
 
             it('exposes username', function() {
-                assert.equal(monitor.username, 'my-username', 'Bad username monitor property.');
+                assert.equal(foreman.username, 'my-username', 'Bad username foreman property.');
             });
 
             describe('during authentication', function() {
                 it('calls the given callback after authentication', function(done) {
-                    monitor.authenticate(function(err) {
+                    foreman.authenticate(function(err) {
                         expect(err).to.not.exist;
                         assert.isTrue(authenticated, 'Monitor did not authenticate with travis-ci.');
                         done();
@@ -100,20 +100,20 @@ describe('build monitor', function() {
                 }
             };
 
-            var Monitor = proxyquire('../monitor', {
+            var TravisForeman = proxyquire('../foreman', {
                 'travis-ci': function () {
                     return mockTravisInstance;
                 }
             });
 
-            var monitor = new Monitor({
+            var foreman = new TravisForeman({
                 organization: 'my-organization',
                 username: 'my-username',
                 password: 'my-password'
             });
 
             it('returns proper error when listing repos', function(done) {
-                monitor.listRepos(function(err, repos) {
+                foreman.listRepos(function(err, repos) {
                     assert.ok(err, 'should have received error on repo list with bad org');
                     assert.notOk(repos, 'should not have received data');
                     done();
@@ -146,13 +146,13 @@ describe('build monitor', function() {
             callback(null, mockNupicBuilds);
         };
 
-        var Monitor = proxyquire('../monitor', {
+        var TravisForeman = proxyquire('../foreman', {
             'travis-ci': function () {
                 return mockTravisInstance;
             }
         });
 
-        var monitor = new Monitor({
+        var foreman = new TravisForeman({
             organization: 'my-organization',
             username: 'my-username',
             password: 'my-password'
@@ -160,7 +160,7 @@ describe('build monitor', function() {
 
 
         it('lists repo information for an organization', function(done) {
-            monitor.listRepos(function(err, repos) {
+            foreman.listRepos(function(err, repos) {
                 expect(err).to.not.exist;
                 expect(repos).to.be.instanceOf(Array);
                 expect(repos).to.have.length(9);
@@ -171,7 +171,7 @@ describe('build monitor', function() {
         });
 
         it('lists build information for an repo', function(done) {
-            monitor.listBuilds('my-repo', function(err, builds) {
+            foreman.listBuilds('my-repo', function(err, builds) {
                 expect(err).to.not.exist;
                 expect(builds).to.be.instanceOf(Array);
                 expect(builds).to.have.length(25);
@@ -182,7 +182,7 @@ describe('build monitor', function() {
         });
 
         it('lists running builds for on repo', function(done) {
-            monitor.listRunningBuilds('my-repo', function(err, builds) {
+            foreman.listRunningBuilds('my-repo', function(err, builds) {
                 expect(err).to.not.exist;
                 expect(builds).to.be.instanceOf(Array);
                 expect(builds).to.have.length(2);
@@ -213,13 +213,13 @@ describe('build monitor', function() {
             callback(null, mockNupicBuilds);
         };
 
-        var Monitor = proxyquire('../monitor', {
+        var TravisForeman = proxyquire('../foreman', {
             'travis-ci': function () {
                 return mockTravisInstance;
             }
         });
 
-        var monitor = new Monitor({
+        var foreman = new TravisForeman({
             organization: 'my-organization',
             username: 'my-username',
             password: 'my-password'
@@ -236,13 +236,13 @@ describe('build monitor', function() {
             }
         };
 
-        var Monitor = proxyquire('../monitor', {
+        var TravisForeman = proxyquire('../foreman', {
             'travis-ci': function () {
                 return mockTravisInstance;
             }
         });
 
-        var monitor = new Monitor({
+        var monitor = new TravisForeman({
             organization: 'my-organization',
             username: 'my-username',
             password: 'my-password'
@@ -290,4 +290,3 @@ describe('build monitor', function() {
     });
 
 });
-

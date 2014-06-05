@@ -1,5 +1,5 @@
 {
-    "name": "travis-build-monitor",
+    "name": "travis-foreman",
     "version": "0.0.1",
     "author": {
         "name" : "Matthew Taylor",
@@ -7,7 +7,7 @@
         "url" : "http://about.me/rhyolight"
     },
     "description": "Utility for getting status of all current running Travis-CI builds for an organization.",
-    "main": "monitor.js",
+    "main": "foreman.js",
     "scripts": {
         "test": "istanbul cover _mocha -- --recursive -R spec && istanbul report text-summary > coverage/summary.txt"
     },
@@ -20,10 +20,10 @@
     }],
     "repository": {
         "type": "git",
-        "url": "git://github.com/rhyolight/travis-build-monitor.git"
+        "url": "git://github.com/rhyolight/travis-foreman.git"
     },
     "bugs": {
-        "url": "https://github.com/rhyolight/travis-build-monitor/issues"
+        "url": "https://github.com/rhyolight/travis-foreman/issues"
     },
     "dependencies": {
         "underscore"    : "1.6.0",
