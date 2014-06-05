@@ -1,0 +1,44 @@
+{
+    "name": "travis-build-monitor",
+    "version": "0.0.1",
+    "author": {
+        "name" : "Matthew Taylor",
+        "email" : "rhyolight@gmail.com",
+        "url" : "http://about.me/rhyolight"
+    },
+    "description": "Utility for getting status of all current running Travis-CI builds for an organization.",
+    "main": "monitor.js",
+    "scripts": {
+        "test": "istanbul cover _mocha -- --recursive -R spec && istanbul report text-summary > coverage/summary.txt"
+    },
+    "keywords": [
+        "travis", "travis-ci", "continuous integration"
+    ],
+    "contributors": [{
+        "name": "Matt Taylor",
+        "email": "rhyolight@gmail.com"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/rhyolight/travis-build-monitor.git"
+    },
+    "bugs": {
+        "url": "https://github.com/rhyolight/travis-build-monitor/issues"
+    },
+    "dependencies": {
+        "underscore"    : "1.6.0",
+        "async"         : "0.4.0",
+        "travis-ci"     : "1.1.1"
+    },
+    "devDependencies": {
+        "proxyquire"    : "0.5.x",
+        "mocha"         : "1.12.x",
+        "istanbul"      : "0.1.x",
+        "sinon"         : "1.7.x",
+        "chai"          : "1.9.x"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.10"
+    }
+}
