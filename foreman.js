@@ -18,7 +18,7 @@ function splitArguments(args) {
     return [token, config, callback];
 }
 
-function TravisBuildMonitor(config, authCallback) {
+function Foreman(config, authCallback) {
     var cfg = _.extend({}, config),
         callback = authCallback;
     if (! callback) {
@@ -40,14 +40,14 @@ function TravisBuildMonitor(config, authCallback) {
     }, callback);
 }
 
-TravisBuildMonitor.prototype.authenticate = function(callback) {
+Foreman.prototype.authenticate = function(callback) {
     this.travis.authenticate({
         username: this.username,
         password: this.password
     }, callback);
 };
 
-TravisBuildMonitor.prototype.listRepos = function(callback) {
+Foreman.prototype.listRepos = function(callback) {
     this.travis.repos({
         owner_name: this.organization
     }, function(err, response) {
@@ -59,7 +59,7 @@ TravisBuildMonitor.prototype.listRepos = function(callback) {
     });
 };
 
-TravisBuildMonitor.prototype.listBuilds = function() {
+Foreman.prototype.listBuilds = function() {
     var me = this,
         args = splitArguments(arguments),
         repoName = args[0],
@@ -99,8 +99,20 @@ TravisBuildMonitor.prototype.listBuilds = function() {
                 filteredOutput = _.compact(_.collect(response.builds, function(build) {
                     var includedBuild = build;
                     _.each(filter, function(filterValue, filterBy) {
-                        if (build[filterBy] != filterValue) {
-                            includedBuild = false;
+                        var matchesOne = false;
+                        if (typeof(filterValue) == 'object') {
+                            _.each(filterValue, function(value) {
+                                if (build[filterBy] == value) {
+                                    matchesOne = true
+                                }
+                            });
+                            if (! matchesOne) {
+                                includedBuild = false;
+                            }
+                        } else {
+                            if (build[filterBy] != filterValue) {
+                                includedBuild = false;
+                            }
                         }
                     });
                     return includedBuild;
@@ -116,12 +128,11 @@ TravisBuildMonitor.prototype.listBuilds = function() {
     }
 };
 
-TravisBuildMonitor.prototype.listRunningBuilds = function() {
-    var me = this,
-        args = splitArguments(arguments),
+Foreman.prototype.listRunningBuilds = function() {
+    var args = splitArguments(arguments),
         repoName = args[0],
         callback = args[2];
-    this.listBuilds(repoName, {state: 'started'}, callback);
+    this.listBuilds(repoName, {state: ['started', 'created']}, callback);
 };
 
-module.exports = TravisBuildMonitor;
+module.exports = Foreman;

@@ -183,9 +183,10 @@ describe('foreman', function() {
 
         it('lists running builds for on repo', function(done) {
             foreman.listRunningBuilds('my-repo', function(err, builds) {
+                // This should list all builds with state: 'started' or 'created'.
                 expect(err).to.not.exist;
                 expect(builds).to.be.instanceOf(Array);
-                expect(builds).to.have.length(2);
+                expect(builds).to.have.length(3);
                 expect(builds[0]).to.be.an('object');
                 expect(builds[0]).to.have.property('id').and.equal(26806886);
                 done();
@@ -249,12 +250,13 @@ describe('foreman', function() {
         });
 
         it('lists running builds for all repos', function(done) {
+            // This should list all builds with state: 'started' or 'created'.
             monitor.listRunningBuilds(function(err, builds) {
                 expect(err).to.not.exist;
                 expect(builds).to.be.instanceOf(Object);
                 expect(builds).to.include.keys('nupic');
                 expect(builds['nupic']).to.be.instanceOf(Array);
-                expect(builds['nupic']).to.have.length(2);
+                expect(builds['nupic']).to.have.length(3);
                 expect(builds['nupic'][0]).to.have.property('id').and.equal(26806886);
                 expect(builds).to.include.keys('nupic.core');
                 expect(builds['nupic.core']).to.be.instanceOf(Array);
