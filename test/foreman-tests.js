@@ -193,6 +193,20 @@ describe('foreman', function() {
             });
         });
 
+        it('includes commit details', function(done) {
+            foreman.listBuilds('my-repo', function(err, builds) {
+                var expectedCommitSha = "48a699dce9df11c68dd9d32cb9a032bd386cf419";
+                expect(err).to.not.exist;
+                expect(builds).to.be.instanceOf(Array);
+                expect(builds).to.have.length(25);
+                expect(builds[0]).to.be.an('object');
+                expect(builds[0]).to.have.property('commit_id').and.equal(7741677);
+                expect(builds[0]).to.have.property('commit').and.to.be.an('object');
+                expect(builds[0].commit).to.have.property('sha').and.equal(expectedCommitSha);
+                done();
+            });
+        });
+
     });
 
     describe('with two repositories', function() {

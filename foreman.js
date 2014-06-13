@@ -90,13 +90,24 @@ Foreman.prototype.listBuilds = function() {
             owner_name: this.organization,
             name: repoName
         }, function(err, response) {
-            var filteredOutput = [];
+            var builds,
+                filteredOutput = [];
             if (err) {
                 return callback(err);
             }
+
+            // Include commit object attached to build.
+            builds = _.map(response.builds, function(build) {
+                build.commit = _.find(response.commits, function(commit) {
+                    return build.commit_id == commit.id;
+                });
+                return build;
+            });
+
+
             // Filter builds if necessary
             if (_.size(filter) > 0) {
-                filteredOutput = _.compact(_.collect(response.builds, function(build) {
+                filteredOutput = _.compact(_.collect(builds, function(build) {
                     var includedBuild = build;
                     _.each(filter, function(filterValue, filterBy) {
                         var matchesOne = false;
