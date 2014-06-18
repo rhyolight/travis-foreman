@@ -1,6 +1,6 @@
 {
     "name": "travis-foreman",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": {
         "name" : "Matthew Taylor",
         "email" : "rhyolight@gmail.com",
@@ -9,7 +9,7 @@
     "description": "Utility for getting status of all current running Travis-CI builds for an organization.",
     "main": "foreman.js",
     "scripts": {
-        "test": "istanbul cover _mocha -- --recursive -R spec && istanbul report text-summary > coverage/summary.txt"
+        "test": "istanbul cover _mocha -- --recursive -R spec && istanbul report text-summary > coverage/summary.txt && cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "keywords": [
         "travis", "travis-ci", "continuous integration"
@@ -35,7 +35,8 @@
         "mocha"         : "1.12.x",
         "istanbul"      : "0.1.x",
         "sinon"         : "1.7.x",
-        "chai"          : "1.9.x"
+        "chai"          : "1.9.x",
+        "coveralls"     : "2.10.0"
     },
     "license": "MIT",
     "engines": {
