@@ -18,7 +18,7 @@ A small Travis-CI client for listing running builds across a Github organization
         console.log(builds);
     });
 
-This prints all the currently runnint Travis-CI builds for Mozilla:
+This prints all the currently running Travis-CI builds for Mozilla:
 
     { commonplace: [],
       'treeherder-service':
