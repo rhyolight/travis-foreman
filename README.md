@@ -1,4 +1,4 @@
-# Foreman [![Build Status](https://travis-ci.org/rhyolight/travis-foreman.svg?branch=master)](https://travis-ci.org/rhyolight/travis-foreman) [![Coverage Status](https://coveralls.io/repos/rhyolight/travis-foreman/badge.png?branch=master)](https://coveralls.io/r/rhyolight/travis-foreman?branch=master)
+# Foreman [![Build Status](https://travis-ci.org/rhyolight/travis-foreman.svg?branch=master)](https://travis-ci.org/rhyolight/travis-foreman) [![Coverage Status](https://coveralls.io/repos/rhyolight/travis-foreman/badge.png?branch=master)](https://coveralls.io/r/rhyolight/travis-foreman?branch=master) [![NPM version](https://badge.fury.io/js/travis-foreman.svg)](http://badge.fury.io/js/travis-foreman)
 
 A small Travis-CI client for listing running builds across a Github organization or user account.
 
